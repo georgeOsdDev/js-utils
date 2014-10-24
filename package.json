@@ -1,0 +1,36 @@
+{
+  "name": "js-utils",
+  "author": "Takeharu Oshida <georgeosddev@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/georgeosddev/js-utils.git"
+  },
+  "main": "utils.js",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "grunt uglify",
+    "lint": "grunt jshint",
+    "test": "grunt mochaTest",
+    "documentation": "grunt jsdoc"
+  },
+  "dependencies": {
+    "underscore": "1.7.0"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "es6-promise": "2.0.0",
+    "grunt": "^0.4.4",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-jsdoc": "^0.5.4",
+    "grunt-mocha-test": "^0.10.2",
+    "jshint-stylish": "^0.1.5",
+    "mocha": "^2.0.1"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/georgeosddev/js-utils/master/LICENSE"
+    }
+  ]
+}
