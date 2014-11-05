@@ -9,47 +9,43 @@
  */
 
 // For command line test
-if (typeof module !== "undefined" && module.exports) {
-  /*jshint -W079 */
-  var _            = require("underscore");
-  var Promise      = require("es6-promise").Promise;
-  /*jshint +W079 */
-}
-
-
 (function(global, _, Promise, undefined) {
   "use strict";
-  if (!(_ && Promise)) {
-    // // underscorify
-    // // https://github.com/georgeosddev/devtools-snippets
-    // (function () {
-    //   var _InUse = !!window._;
-    //   if (_InUse) return false;
-    //   var s = document.createElement('script');
-    //   s.setAttribute('src', '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js');
-    //   document.body.appendChild(s);
-    // })();
-    if (global.console && global.console.log) return console.error("Missing dependency, this utility needs underscore.js & es6-promise");
+
+  if (typeof _ === "undefined" || typeof Promise === "undefined") {
+
+    if (typeof module !== "undefined" && module.exports) {
+      /*jshint -W079 */
+      var _            = require("underscore");
+      var Promise      = require("es6-promise").Promise;
+      /*jshint +W079 */
+    } else{
+      // // underscorify
+      // // https://github.com/georgeosddev/devtools-snippets
+      // (function () {
+      //   var _InUse = !!window._;
+      //   if (_InUse) return false;
+      //   var s = document.createElement('script');
+      //   s.setAttribute('src', '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js');
+      //   document.body.appendChild(s);
+      // })();
+      if (global.console && global.console.log) return console.error("Missing dependency, this utility needs underscore.js & es6-promise");
+    }
   }
 
-  /**
-   * @namespace App
-   */
-  var App = global.App || {};
+  var previousUtils = global.Utils;
 
   /**
    * Javascript utility snippets
-   * @namespace App.Utils
-   * @memberof App
+   * @namespace Utils
    * @static
    */
-  var Utils = App.Utils = {};
-
+  var Utils = {};
 
   /**
    * Run function on nextTick
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {function} f This function will be executed on next tick
    */
@@ -62,7 +58,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return promised object
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {function} f This function is called as f(done, reject, {array of arguments})should call `done` and `reject`.
    * @param {Any} args arguments for f..
@@ -86,12 +82,12 @@ if (typeof module !== "undefined" && module.exports) {
    *    done(result);
    *  }
    *
-   *  willBeSuccess = App.Utils.defer(heavyTask, 1000);
+   *  willBeSuccess = Utils.defer(heavyTask, 1000);
    *  willBeSuccess.then(
    *    function(result){console.log("1000 success", result);},
    *    function(error) {console.log("1000 fail",    error);}
    *  );
-   *  willBeFail    = App.Utils.defer(heavyTask, 1001);
+   *  willBeFail    = Utils.defer(heavyTask, 1001);
    *  willBeFail.then(
    *    function(result){console.log("1001 success", result);},
    *    function(error) {console.log("1001 fail",    error);}
@@ -113,7 +109,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return promised object
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {function} f This function is called as f(done, reject, {arguments}...)should call `done` and `reject`.
    * @param {Any} args arguments for f.
@@ -135,7 +131,7 @@ if (typeof module !== "undefined" && module.exports) {
    * Run function queue
    * @see https://gist.github.com/georgeOsdDev/6914757
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @return {Object} queue
    */
@@ -167,7 +163,7 @@ if (typeof module !== "undefined" && module.exports) {
    * This method have Side-effect
    * @see https://github.com/isaacs/inherits
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Function} ctor constructor
    * @return {Function} superCtor constructor of superClass
@@ -188,7 +184,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return cloneed object
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} obj
    * @return {Object} cloned
@@ -206,7 +202,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return deep cloneed object
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} obj
    * @return {Object} deepCloned
@@ -226,11 +222,12 @@ if (typeof module !== "undefined" && module.exports) {
     return copy;
   };
   Utils.deepClone = deepClone;
+  Utils.previousUtils = deepClone(previousUtils);
 
   /**
    * return prefixed logger.
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {prefix}
    * @return {Object} logger
@@ -292,7 +289,7 @@ if (typeof module !== "undefined" && module.exports) {
    * @see http://www.html5rocks.com/en/tutorials/webgl/typed_arrays/#toc-transferables
    * @see http://updates.html5rocks.com/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Uint16Array} buf Uint16Array
    * @return {String} str decoded string
@@ -308,7 +305,7 @@ if (typeof module !== "undefined" && module.exports) {
    * @see http://www.html5rocks.com/en/tutorials/webgl/typed_arrays/#toc-transferables
    * @see http://updates.html5rocks.com/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} str target string
    * @return {Uint16Array} buf encoded Uint16Array
@@ -326,7 +323,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Do nothing
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @return undefined
    */
@@ -338,7 +335,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Alias for `Array.prototype.slice.apply`.
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} arguments argument object
    * @return {Array} result
@@ -351,7 +348,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return input as Array.
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Array} result
@@ -364,7 +361,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return true if input is not `null` or `undefined`.
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Boolean} result
@@ -378,7 +375,7 @@ if (typeof module !== "undefined" && module.exports) {
    * return true if input is not `null` or `undefined` or `false`<br>
    * `0`, `-1`, `""` is detected as truthy
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Boolean} result
@@ -391,7 +388,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return true if input is the `true`
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Boolean} result
@@ -404,7 +401,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return true if input is the `false`
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Boolean} result
@@ -417,7 +414,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return true if input is less than 0
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Boolean} result
@@ -430,7 +427,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return true if input is the 0
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Boolean} result
@@ -456,7 +453,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return true if input is greater than 0
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @return {Boolean} result
@@ -469,7 +466,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * execute action with values when condition is truthy else execute alternative
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Boolean} cond
    * @param {Function} action
@@ -490,7 +487,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * execute action with values when condition is truthy
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Boolean} cond
    * @param {Function} action
@@ -506,7 +503,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return input if input is existy else return els
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @param {Object} els
@@ -520,7 +517,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return val if result of input has been evaluated by predictor is truthy else return els
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Object} val
    * @param {Object} els
@@ -536,7 +533,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * return simple router
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @return {Object} router
    * @example
@@ -568,7 +565,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Try parse string to JSON object
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} str JSON formated string
    * @return {Array} result A Tuple `[error, parsed]`
@@ -589,7 +586,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Parse string to JSON object with ignoring error.
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} str JSON formated string
    * @return {Object} result
@@ -602,7 +599,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Generate MongoDB like objectId
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} [id=null]
    * @return {String} MongoDB like objectId (e.g. "141412018394502septzmylf") if id is specified return that id
@@ -630,7 +627,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return uuid like random value
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @return {String} uuid uuid like random value
    */
@@ -648,7 +645,7 @@ if (typeof module !== "undefined" && module.exports) {
    * Return timestamp from mongodb's objectID
    * @see http://docs.mongodb.org/manual/reference/method/ObjectId.getTimestamp/
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} mongoDBId(objectId)
    * @return {Long} Unix timestamp (second)
@@ -663,7 +660,7 @@ if (typeof module !== "undefined" && module.exports) {
    * Return Date object from mongodb's objectID
    * @see http://docs.mongodb.org/manual/reference/method/ObjectId.getTimestamp/
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} mongoDBId(objectId)
    * @return {Date} date object
@@ -676,7 +673,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return left padded string
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} target target character or string
    * @param {Number} n size of result
@@ -693,7 +690,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return specified number zefo padding function
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Number} n size of result
    * @return {Function} f left padding function
@@ -709,7 +706,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return formatted "MM/DD hh:mm"
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Date} d target date object
    * @return {String} result as "MM/DD hh:mm" format
@@ -722,7 +719,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return formatted "YYYY/"MM/DD hh:mm:ss"
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Date} d target date object
    * @return {String} result as "YYYY/"MM/DD hh:mm:ss" format
@@ -735,7 +732,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return empty string when target is undefined or null
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {Any} t target
    * @return {Any} t if target is null or undefined return empty string
@@ -748,7 +745,7 @@ if (typeof module !== "undefined" && module.exports) {
   /**
    * Return sanitized html string
    * @function
-   * @memberof App.Utils
+   * @memberof Utils
    * @static
    * @param {String} html node tree
    * @return {String} html sanitized html
@@ -764,11 +761,11 @@ if (typeof module !== "undefined" && module.exports) {
 
   if (typeof exports !== "undefined") {
     if (typeof module !== "undefined" && module.exports) {
-      module.exports = App;
+      module.exports = Utils;
     }
-    exports.App = App;
+    exports.Utils = Utils;
   } else {
-    global.App = App;
+    global.Utils = Utils;
   }
 
-})(this, _, Promise, undefined);
+})(this, typeof _ === "undefined" ? undefined : _,  typeof Promise === "undefined" ? undefined : Promise, undefined);

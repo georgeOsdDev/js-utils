@@ -6,7 +6,7 @@
     "url": "git://github.com/georgeosddev/js-utils.git"
   },
   "main": "utils.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "build": "grunt uglify",
     "lint": "grunt jshint",
@@ -26,6 +26,21 @@
     "grunt-mocha-test": "^0.10.2",
     "jshint-stylish": "^0.1.5",
     "mocha": "^2.0.1"
+  },
+
+  "testling": {
+    "files": "spec/*.js",
+    "harness" : "mocha",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/22..latest",
+      "firefox/16..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6",
+      "android-browser/latest"
+    ]
   },
   "licenses": [
     {

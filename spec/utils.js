@@ -4,15 +4,20 @@ if (typeof module !== "undefined" && module.exports) {
   var expect  = require("chai").expect;
   var _       = require("underscore");
   // var Promise = require('es6-promise').Promise;
-  var Utils   = require("../utils.js").Utils;
+
+  var Utils = {
+    xx:function(){
+      return "this is existing util";
+    }
+  }
+
+  var Utils   = require("../utils.js");
   /*jshint +W079 */
-} else {
-  var Utils = App.Utils;
 }
 
 (function () {
   "use strict";
-  describe("Test for App.Utils", function(){
+  describe("Test for Utils", function(){
 
     describe("nextTick", function(){
       var res = [];
@@ -1010,6 +1015,18 @@ if (typeof module !== "undefined" && module.exports) {
       });
     });
 
+
+    describe("no_conflict", function(){
+      it("save previous utils", function(done){
+        if (Utils.previousUtils) {
+          var result = Utils.previousUtils.xx();
+          expect(result).to.be.eql("this is existing util");
+          done();
+        } else {
+          done();
+        }
+      })
+    });
 
   });
 })();
