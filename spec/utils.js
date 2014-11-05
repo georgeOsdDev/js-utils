@@ -99,6 +99,70 @@ if (typeof module !== "undefined" && module.exports) {
       });
     });
 
+    describe("deferApply", function(){
+      var asyncFuncAlwaysSuccess = function(done, reject, arg1, arg2){
+        done({"msg":"success", "arg1":arg1, "arg2":arg2 });
+      };
+      var asyncFuncAlwaysFail = function(done, reject, args){
+        reject({"msg":"fail"});
+      };
+
+      it("return thenable object", function(done){
+        var successCalled = 0;
+        var failCalled    = 0;
+        var result;
+
+        function checker(){
+          expect(result.msg).to.be.eql("success");
+          expect(successCalled).to.be.eql(1);
+          expect(failCalled).to.be.eql(0);
+        }
+        var process = Utils.deferApply(asyncFuncAlwaysSuccess, "Hello", "World");
+        process.then(function(val){
+          expect(val.msg).to.be.eql("success");
+          expect(val.arg1).to.be.eql("Hello");
+          expect(val.arg2).to.be.eql("World");
+          result = val;
+          successCalled += 1;
+          checker();
+          done();
+        });
+        process["catch"](function(val){
+          expect(val.msg).to.be.eql("fail");
+          result = val;
+          failCalled += 1;
+          checker();
+          done();
+        });
+      });
+
+      it("return catchable object", function(done){
+        var successCalled = 0;
+        var failCalled    = 0;
+        var result;
+
+        function checker(){
+          expect(result.msg).to.be.eql("fail");
+          expect(successCalled).to.be.eql(0);
+          expect(failCalled).to.be.eql(1);
+        }
+        var process = Utils.deferApply(asyncFuncAlwaysFail, "Hello", "World");
+        process.then(function(val){
+          result = val;
+          successCalled += 1;
+          checker();
+          done();
+        });
+        process["catch"](function(val){
+          expect(val.msg).to.be.eql("fail");
+          result = val;
+          failCalled += 1;
+          checker();
+          done();
+        });
+      });
+    });
+
     describe("queueing", function(){
       var res = [];
       var func1 = function(){
