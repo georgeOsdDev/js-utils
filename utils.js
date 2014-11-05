@@ -64,8 +64,8 @@ if (typeof module !== "undefined" && module.exports) {
    * @function
    * @memberof App.Utils
    * @static
-   * @param {function} f This function should call `done` and `reject`.
-   * @param {Array} args arguments as array for f.
+   * @param {function} f This function is called as f(done, reject, {array of arguments})should call `done` and `reject`.
+   * @param {Any} args arguments for f..
    * @return {Promise} promise thenable object
    * @example
    *
@@ -108,6 +108,28 @@ if (typeof module !== "undefined" && module.exports) {
     });
   };
   Utils.defer = defer;
+
+
+  /**
+   * Return promised object
+   * @function
+   * @memberof App.Utils
+   * @static
+   * @param {function} f This function is called as f(done, reject, {arguments}...)should call `done` and `reject`.
+   * @param {Any} args arguments for f.
+   * @return {Promise} promise thenable object
+   * @example
+   */
+  var deferApply = function() {
+    var args     = Array.prototype.slice.apply(arguments),
+        f        = args[0],
+        realArgs = args.slice(1)
+        ;
+    return new Promise(function(done, reject) {
+      return f.apply(null, [done, reject].concat(realArgs));
+    });
+  };
+  Utils.deferApply = deferApply;
 
   /**
    * Run function queue
