@@ -114,7 +114,6 @@
    * @param {function} f This function is called as f(done, reject, {arguments}...)should call `done` and `reject`.
    * @param {Any} args arguments for f.
    * @return {Promise} promise thenable object
-   * @example
    */
   var deferApply = function() {
     var args     = Array.prototype.slice.apply(arguments),
