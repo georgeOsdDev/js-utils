@@ -36,6 +36,7 @@
         "Promise"    : false,
         "module"     : false,
         "exports"    : false,
-        "require"    : false
+        "require"    : false,
+        "_"          : false
     }
 }

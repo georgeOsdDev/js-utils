@@ -3,7 +3,7 @@ if (typeof module !== "undefined" && module.exports) {
   /*jshint -W079 */
   var expect  = require("chai").expect;
   var _       = require("underscore");
-  // var Promise = require('es6-promise').Promise;
+  var Promise = require('es6-promise').Promise;
 
   var Utils = {
     xx:function(){
@@ -1026,6 +1026,14 @@ if (typeof module !== "undefined" && module.exports) {
           done();
         }
       })
+    });
+
+    describe("ajax", function(){
+      it("return thenableObject", function(done){
+        var req = Utils.ajax({});
+        expect(req instanceof Promise).to.be.eql(true);
+        done();
+      });
     });
 
   });

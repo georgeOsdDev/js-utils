@@ -16,8 +16,8 @@
 
     if (typeof module !== "undefined" && module.exports) {
       /*jshint -W079 */
-      var _            = require("underscore");
-      var Promise      = require("es6-promise").Promise;
+      _            = require("underscore");
+      Promise      = require("es6-promise").Promise;
       /*jshint +W079 */
     } else{
       // // underscorify
@@ -757,6 +757,78 @@
       ;
   };
   Utils.escapeHtml = escapeHtml;
+
+  var ajaxObject = (function(){
+    if (global.XMLHttpRequest) {
+      return function(){
+        var httpRequest = new XMLHttpRequest();
+        if (httpRequest.overrideMimeType) {
+            httpRequest.overrideMimeType("text/plain");
+        }
+        return httpRequest;
+      };
+    } else if (global.ActiveXObject) {
+      return function(){
+        try {
+            return new global.ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+          try {
+              return new global.ActiveXObject("Microsoft.XMLHTTP");
+          } catch (error) {}
+        }
+      };
+    } else {
+      return Utils.noop;
+    }
+  })();
+
+  /**
+   * Return thenable ajax request
+   * @function
+   * @memberof Utils
+   * @static
+   * @param {Object} option
+   * @param {String} option.method httpRequestMethod Only GET and POST are supported, other method type are handled as _method parameter of POST request
+   * @param {String} option.url url request url
+   * @param {String} option.async url request url
+   * @param {Object} option.data data request data request data will send to server as form
+   * @return {Promise} thenable respons status and body will be passed to done and reject function.
+   */
+  var ajax = function(option){
+    var p = new Promise(function(done, reject){
+      var httpRequest = ajaxObject();
+      if (!httpRequest) return reject();
+      httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState === 4) {
+          if (httpRequest.status === 200) {
+            return done({status:httpRequest.status, body:httpRequest.responseText});
+          } else {
+            return reject({status:httpRequest.status});
+          }
+        }
+      };
+      var method      = option.method === "GET" ? "GET" : "POST",
+          url         = option.url,
+          contentType = "application/x-www-form-urlencoded",
+          data        = option.data || {}
+          ;
+
+      httpRequest.open(method, url, true);
+      httpRequest.setRequestHeader("Content-Type", contentType);
+      if (method === "POST"){
+        var formString = _.map(data, function(val, key){
+                            return key+"="+val;
+                          }).join("&");
+        if (option.method !== "POST") formString += "&_method="+option.method;
+        httpRequest.send(formString);
+      } else {
+        httpRequest.send();
+      }
+    });
+    return p;
+  };
+  Utils.ajax = ajax;
+
 
   if (typeof exports !== "undefined") {
     if (typeof module !== "undefined" && module.exports) {
