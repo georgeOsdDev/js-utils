@@ -217,7 +217,7 @@ if (typeof module !== "undefined" && module.exports) {
 
       it("enables extend prototype", function(done){
         var c = new Child("c1");
-        expect(c.constructor.name).to.be.eql("Child");
+        if (c.constructor.name) expect(c.constructor.name).to.be.eql("Child");
         expect(c.getName()).to.be.eql("P:"+c.name);
         done();
       });
@@ -368,7 +368,7 @@ if (typeof module !== "undefined" && module.exports) {
       it("convert string to ArrayBuffer", function(done){
         ab = Utils.str2ab(src);
         expect(typeof ab).to.be.eql("object");
-        expect(ab.constructor.name).to.be.eql("ArrayBuffer");
+        if (ab.constructor.name) expect(ab.constructor.name).to.be.eql("ArrayBuffer");
         done();
       });
 

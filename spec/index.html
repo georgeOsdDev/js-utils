@@ -8,13 +8,16 @@
     <title>js-utils Test</title>
     <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
     <script type="text/javascript" src="../bower_components/underscore/underscore.js"></script>
+    <script type="text/javascript" src="../bower_components/es6-promise/promise.min.js"></script>
     <script>
+        if (typeof Promise === "undefined") var Promise = ES6Promise.Promise;
+
             var Utils = {
             xx: function(){
                 return "this is existing util";
             }
         }
-    </script>    
+    </script>
     <script type="text/javascript" src="../utils.js"></script>
 </head>
 <body>

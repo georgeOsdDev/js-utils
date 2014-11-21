@@ -6,7 +6,7 @@
     "url": "git://github.com/georgeosddev/js-utils.git"
   },
   "main": "utils.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "scripts": {
     "build": "grunt uglify",
     "lint": "grunt jshint",

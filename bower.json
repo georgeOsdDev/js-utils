@@ -1,6 +1,7 @@
 {
   "name": "js-utils",
   "dependencies": {
-    "underscore": "1.7.0"
+    "underscore": "1.7.0",
+    "es6-promise": "~2.0.0"
   }
 }
