@@ -25,14 +25,15 @@
     "grunt-jsdoc": "^0.5.4",
     "grunt-mocha-test": "^0.10.2",
     "jshint-stylish": "^0.1.5",
-    "mocha": "^2.0.1"
+    "mocha": "^2.0.1",
+    "browserify": "^6.3.2",
+    "testling": "^1.7.1"
   },
-
   "testling": {
     "files": "spec/*.js",
-    "harness" : "mocha",
+    "harness": "mocha",
     "browsers": [
-      "ie/6..latest",
+      "ie/10..latest",
       "chrome/22..latest",
       "firefox/16..latest",
       "safari/latest",
