@@ -4,5 +4,9 @@ browsers:
     version: latest
   - name: ie
     version: 10..latest
+  - name: safari
+    version: latest
   - name: firefox
+    version: latest
+  - name: opera
     version: latest

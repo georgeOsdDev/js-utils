@@ -10,7 +10,7 @@
   "scripts": {
     "build": "grunt uglify",
     "lint": "grunt jshint",
-    "test": "zuul -- test/test.js",
+    "test": "zuul -- test/utils.js",
     "documentation": "grunt jsdoc"
   },
   "dependencies": {
