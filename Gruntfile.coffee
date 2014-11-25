@@ -45,7 +45,7 @@ module.exports = (grunt) ->
         options:
           reporter: 'tap'
         src: [
-          'spec/utils.js'
+          'test/utils.js'
         ]
 
   # load

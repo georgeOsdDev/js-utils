@@ -10,7 +10,7 @@
   "scripts": {
     "build": "grunt uglify",
     "lint": "grunt jshint",
-    "test": "grunt mochaTest",
+    "test": "zuul -- test.js",
     "documentation": "grunt jsdoc"
   },
   "dependencies": {
@@ -27,7 +27,8 @@
     "jshint-stylish": "^0.1.5",
     "mocha": "^2.0.1",
     "browserify": "^6.3.2",
-    "testling": "^1.7.1"
+    "testling": "^1.7.1",
+    "zuul": "^1.13.1"
   },
   "testling": {
     "files": "spec/*.js",
